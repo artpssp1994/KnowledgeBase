@@ -1,0 +1,48 @@
+{% extends 'user_menu.html' %}
+
+{% block detail_block %}
+    <style>
+        .bg-4 {
+            background-color: #b9def0;
+            color: #ffffff;
+            height: 80px;
+        }
+
+    </style>
+
+    <body background="/media/documents/2015/12/08/tree_background-IMYx.jpg">
+    <div class="well" style="background-color: white">
+        <header class="container-fluid bg-4 text-center">
+
+            <h2 style="color: #0f0f0f">My post</h2>
+
+        </header>
+    {% if mypages %}
+        {% for runp in mypages %}
+            {% for x,value in array.items %}
+                {% if runp.id == x.id %}
+                    {% for runsp in sup_category %}
+                        {% if runsp == runp.category.super_category %}
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><a href="/knowledge_management/category/{{ runsp.id }}/{{ runp.category.id }}/{{ runp.id }}" class="col-sm-11">{{ runp.title }}<br><sub>{{ runp.postby }} {{ runp.date }} like {{ page.like }}</sub></a><div class="col-sm-1 text-center">ตอบกลับ<br>{{ value }}<br></div></li>
+                            </ul>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+
+        <ul class="pagination" id="pagebar">
+            {% for run in numpage %}
+                <li><a href="/knowledge_management/mypost/page={{ run }}/">{{ run }}</a></li>
+            {% endfor %}
+        </ul>
+
+    {% else %}
+        <strong>There are no pages to present.</strong>
+    {% endif %}
+    </div>
+
+
+{% endblock %}
+

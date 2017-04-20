@@ -1,0 +1,27 @@
+{% extends 'user_menu.html' %}
+
+{% block detail_block %}
+    <a href="/knowledge_management/search/" class="btn btn-success btn-xs">Search</a>
+    <h1>Search  :  {{ name }}<br> <sub><small style="color: grey"> (result {{ result.count }})</small></sub> </h1>
+    <br>
+    <div class="container-fluid">
+
+    {% if result %}
+            {% for page in result %}
+                {% for supcategory in supcategorys %}
+                    {% if page.category.super_category == supcategory %}
+                        <a href="/knowledge_management/category/{{ supcategory.id }}/{{ page.category.id }}/{{ page.id }}">{{ page.title }}</a> <sub>{{ page.postby }} {{ page.date }} Like {{ page.like }}</sub>
+                        <hr class="divider">
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+
+    {% else %}
+        <br><br>
+        <p>Page not found.</p>
+    {% endif %}
+    </div>
+
+
+
+{% endblock %}

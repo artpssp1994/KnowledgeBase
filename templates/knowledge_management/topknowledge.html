@@ -1,0 +1,38 @@
+{% extends 'user_menu.html' %}
+
+{% block detail_block %}
+    <style>
+        .bg-4 {
+            background-color: #b9def0;
+            color: #ffffff;
+            height: 80px;
+        }
+
+    </style>
+    <body background="/media/documents/2015/12/08/tree_background-IMYx.jpg">
+    <div class="well" style="background-color: white">
+    <header class="container-fluid bg-4 text-center">
+
+        <h2 style="color: #0f0f0f">Top 50 liked page</h2>
+
+    </header>
+    <br>
+    {% if pages %}
+        {% for runp in pages %}
+            {% for x,value in array.items %}
+                {% if runp.id == x.id %}
+                    {% for runsp in sup_category %}
+                        {% if runsp == runp.category.super_category %}
+                            <ul class="nav nav-pills nav-stacked">
+                                <li><div class="well col-sm-1 text-center">Liked {{ runp.like }}</div><a href="/knowledge_management/category/{{ runsp.id }}/{{ runp.category.id }}/{{ runp.id }}" class="col-sm-10">{{ runp.title }}<br><sub>{{ runp.postby }} {{ runp.date }} like {{ page.like }}</sub></a><div class="col-sm-1 text-center">ตอบกลับ<br>{{ value }}<br></div></li>
+                            </ul>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    {% else %}
+        <strong>No pages currently in category.</strong>
+    {% endif %}
+    </div>
+{% endblock %}

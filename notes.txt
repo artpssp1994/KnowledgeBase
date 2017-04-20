@@ -1,0 +1,34 @@
+For deploying this project to cis.eng.src.ku.ac.th
+
+install social module: pip3 install python-social-auth
+
+
+scp duplicate project onto the server:
+scp -r cis vacharapat@cis.eng.src.ku.ac.th:.
+
+login:
+ssh vacharapat@cis.eng.src.ku.ac.th
+
+enable python3:
+scl enable rh-python34 bash
+
+runserver using django:
+python manage.py runserver 0.0.0.0:8080
+
+to kill the process runserver:
+>> ps afx
+// find process id
+>> kill (pid)
+
+#######################################################
+การเพิ่ม app ใน CIS
+
+- เพิ่มชื่อ app ใน INSTALLED_APPS ในไฟล์ settings.py
+- เพิ่ม module ใน CIS_APPS ในไฟล์ home/info.py
+- สร้างไฟล์ info.py ใน app โดยให้มีฟังก์ชันดังนี้
+    - accessible_from(user_details) # user_details มีชนิดเป็น user_profile.models.UserDetails
+      ให้ return เป็น True หาก user สามารถใช้ app นี้ได้
+    - get_app_info()
+      ให้ return เป็น dict {'url': app_home_url, 'name': app_name, 'icon': app_bootstrap_glyphicons_icon}
+- เพิ่ม permission ให้โมเดล UserDetails ใน user_profile.models
+- ทำ head_block เป็น dropdown menu ตั้งชื่อว่า head-menu เพื่อที่ template จะจัดการใช้แทน sidebar สำหรับหน้าจอขนาดเล็ก

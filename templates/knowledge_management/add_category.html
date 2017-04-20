@@ -1,0 +1,19 @@
+{% extends 'user_menu.html' %}
+
+{% block detail_block %}
+    <h1>Add a Category</h1>
+
+    <form id="category_form" method="post" action="/knowledge_management/add_category/">
+
+        {% csrf_token %}
+        <input type="text" class="form-control" rows="1" id="title" {{ form.name }} </input>
+
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+
+
+
+        <input type="submit" name="submit" value="Create Category" />
+    </form>
+{% endblock %}

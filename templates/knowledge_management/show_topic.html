@@ -1,0 +1,30 @@
+{% extends 'user_menu.html' %}
+
+{% block detail_block %}
+    <div class="container-fluid">
+        <h1>Category</h1>
+        <p>This part is inside a .container-fluid class.</p>
+        <p>The .container-fluid class provides a full width container, spanning the entire width of the viewport.</p>
+    </div>
+    {% if categories %}
+        <ul>
+            {% for category in categories %}
+                <!-- Following line changed to add an HTML hyperlink -->
+                <li><a href="/knowledge_management/category/{{ category.id }}">{{ category.name }}</a></li>
+                {% if category %}
+                    <ul>
+                        {% for page in pages %}
+                            {% if page.category = category %}
+                                <li><a href="/knowledge_management/category/{{ category.id }}/{{ page.id }}">{{ page.title }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <strong>No pages currently in category.</strong>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% else %}
+        <strong>There are no categories present.</strong>
+    {% endif %}
+{% endblock %}

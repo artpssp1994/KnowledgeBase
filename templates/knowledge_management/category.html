@@ -1,0 +1,33 @@
+{% extends 'user_menu.html' %}
+
+{% block detail_block %}
+    <body background="/media/documents/2015/12/08/tree_background-IMYx.jpg">
+    <style>
+
+        #cwell:hover { background-color: orange };
+    </style>
+
+    <a class="btn btn-danger btn-xs" href="/knowledge_management/category/">Category</a><br>
+    <h1 style="color: blue">Category</h1>
+    {% if sup_category %}
+
+        <div class="container-fluid">
+            {% for scategory,value in array.items %}
+
+                {% for category in categories %}
+                    <div2 id="category" class="row text-center col-sm-3 "  ><div id="cwell" class="well" >
+                        <h3><a id="link" href="/knowledge_management/category/{{ scategory.id }}/0page=1">{{ scategory.name }}</a></h3>
+                        <p>{{ scategory.description }}</p>
+                        <sub style="color: darkgray" ><small ><p align="right">({{ value }} pages)</p></small></sub></div>
+
+                    </div2>
+                {% endfor %}
+            {% endfor %}
+        </div>
+
+
+
+    {% else %}
+        No category currently.
+    {% endif %}
+{% endblock %}

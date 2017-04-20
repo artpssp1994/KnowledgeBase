@@ -1,0 +1,44 @@
+<div class="panel panel-info">
+    <div class="panel-heading">
+        ข้อมูลทั่วไป <i class='icon-spinner icon-spin icon-large' id="spinner"></i>
+    </div>
+    <div class="panel-body">
+        <form id="general_profile_form" method="post" action="#" class="form-horizontal">
+            {% csrf_token %}
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+
+            {% for field in form.visible_fields %}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger" role="alert">{{ error }}</div>
+                {% endfor %}
+                <div class="form-group">
+                    <label for="{{ field.help_text }}" class="col-sm-2 control-label">{{ field.label }}</label>
+                    <div class="col-sm-10">
+                        {{ field }}
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" id="edit_general_profile_button" class="btn btn-primary">บันทึก</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#spinner').hide();
+    });
+
+    $('#edit_general_profile_button').click(function(){
+        $('spinner').show();
+        $.post( "/profile/edit_general_profile/", $( "#general_profile_form" ).serialize(),function(data){
+            $('spinner').hide();
+            $('#general_profile_panel').html(data);
+        });
+    });
+</script>

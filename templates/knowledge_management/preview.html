@@ -1,0 +1,56 @@
+{% extends 'simple-view.html' %}
+
+{% block body_block %}
+    <div class="container-fluid">
+    <center><h1>Upload your image file.</h1></center>
+    <br><br>
+        <div class="well">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-9">
+
+        <br>
+
+    <form action="/knowledge_management/list/0/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p {{ form.non_field_errors }}></p>
+        <p>{{ form.docfile.label_tag }} </p>
+<p>
+            {{ form.docfile.errors }}
+            {{ form.docfile }}</p>
+        <button type="submit" value="Upload"  class="btn btn-primary" />Upload</button>
+
+    </form>
+
+    </div>
+    <br><br><br><br><br><br><br><br>
+    {% if documents %}
+    <ul>
+        {% for document in documents %}
+
+            <div class="form-group has-success has-feedback">
+                <div class="col-sm-2"></div>
+                <label class="col-sm-1 control-label" for="inputWarning">Image link</label>
+                <div class="col-sm-7">
+                    {% if check_status = '1' %}
+                        <input type="text" class="form-control" id="inputWarning" value="{{ document.docfile.url }}">
+                    {% else %}
+                        <input type="text" class="form-control" id="inputWarning" value="">
+
+                    {% endif %}
+                </div>
+                <div class="col-sm-2"></div>
+            </div>
+
+
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No documents.</p>
+{% endif %}
+        <br><br><br>
+    </div>
+<!-- Upload form. Note enctype attribute! -->
+
+</div>
+
+{% endblock %}

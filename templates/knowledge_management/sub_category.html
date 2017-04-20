@@ -1,0 +1,82 @@
+{% extends 'simple-view.html' %}
+
+
+
+{% block body_block %}
+
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+
+            {% block master_block %}
+                <ul class="nav nav-pills nav-stacked">
+
+                Select sub category
+                {% if categories %}
+
+                        {% for category in categories %}
+                            {% if category.id = category_target.id  %}
+                                <li class="active"><a href="/knowledge_management/category/{{ sup_category.id }}/{{ category.id }}page=1" title="{{ category.name }}">{{ category.name|slice:"15" }}</a></li>
+                            {% else %}
+                                <li><a href="/knowledge_management/category/{{ sup_category.id }}/{{ category.id }}page=1" title="{{ category.name }}">{{ category.name|slice:"15" }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <br><br><strong>There are no categories present.</strong>
+                {% endif %}
+
+            {% endblock %}
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <div>
+                {% block detail_block %}
+
+                    {% if category_target %}
+                        <small><a class="btn btn-danger btn-xs" href="/knowledge_management/category/">Category </a> >
+                            {% for re in redirect %}
+                                <a class="btn btn-info btn-xs" href="/knowledge_management/category/{{ sup_category.id }}/{{ re.id }}page=1">{{ sup_category.name }}</a></small>
+                            {% endfor %}
+                        > <button type="button" class="btn btn-success btn-xs">{{ category_target.name }}</button><br>
+                        {% else %}
+                        <small><a class="btn btn-danger btn-xs" href="/knowledge_management/category/">Category</a><br>
+                    {% endif %}
+                    {% if category_zero_slug = '0'  %}
+                        {% for re in redirect %}
+                            <h><meta http-equiv="refresh" content="0; url=/knowledge_management/category/{{ sup_category.id }}/{{ re.id }}page=1" /></h>
+                        {% endfor %}
+                    {% endif %}
+                    {% if category_target %}
+                        <div class="container-fluid">
+                            <h2>{{ sup_category.name }}</h2>
+                            {{ category_target.name }}
+
+                        </div>
+                        <ul>
+
+                        <ul class="nav nav-pills nav-stacked">
+                            {% for pager in pages %}
+                                {% for page,value in array.items %}
+                                    {% if pager.id = page.id %}
+                                        <li><a href="/knowledge_management/category/{{ sup_category.id }}/{{ category_target.id }}/{{ page.id }}" class="col-sm-11">{{ page.title }}<br><sub>{{ page.postby }} {{ page.date }} like {{ page.like }}</sub></a><div class="col-sm-1 text-center">ตอบกลับ<br>{{ value }}<br></div></li>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+
+                        </ul>
+                        <ul class="pagination" id="pagebar">
+                            {% for run in numpage %}
+                                <li><a href="/knowledge_management/category/{{ sup_category.id }}/{{ category_target.id }}page={{ run }}/">{{ run }}</a></li>
+                            {% endfor %}
+                        </ul>
+
+                    {% else %}
+                        <strong>There are no categories present.</strong>
+                    {% endif %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+

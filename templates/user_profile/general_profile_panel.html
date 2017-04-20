@@ -1,0 +1,59 @@
+<div class="panel panel-info">
+    <div class="panel-heading">
+        ข้อมูลทั่วไป <i class='icon-spinner icon-spin icon-large' id="spinner"></i>
+            <span class="pull-right">
+                <a href="#" id="general_profile_edit_button">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> แก้ไข
+                </a>
+            </span>
+    </div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>ชื่อ(ไทย)</dt>
+            <dd>
+                {% if user_details.first_name_th %}
+                    {{ user_details.first_name_th }}
+                {% else %}
+                    -
+                {% endif %}
+            </dd>
+            <dt>นามสกุล(ไทย)</dt>
+            <dd>
+                {% if user_details.last_name_th %}
+                    {{ user_details.last_name_th }}
+                {% else %}
+                    -
+                {% endif %}
+            </dd>
+            <dt>หมายเลขภายใน</dt>
+            <dd>
+                {% if user_details.internal_number %}
+                    {{ user_details.internal_number }}
+                {% else %}
+                    -
+                {% endif %}
+            </dd>
+            <dt>โทรศัพท์มือถือ</dt>
+            <dd>
+                {% if user_details.mobile_phone_number %}
+                    {{ user_details.mobile_phone_number }}
+                {% else %}
+                    -
+                {% endif %}
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+       $('#spinner').hide();
+    });
+    $('#general_profile_edit_button').click(function(){
+        $('#spinner').show();
+        $.get('/profile/general_profile_form/', {}, function(data){
+            $('spinner').hide();
+            $('#general_profile_panel').html(data);
+        });
+    });
+</script>

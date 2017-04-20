@@ -1,0 +1,16 @@
+{% extends 'simple-view.html' %}
+
+{% block body_block %}
+    <div class="col-md-6 col-md-offset-3">
+        <div class="jumbotron">
+            <h1>Central Information System</h1>
+            <h2>ระบบสารสนเทศกลาง</h2>
+            <p>คณะวิศวกรรมศาสตร์ศรีราชา มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตศรีราชา</p>
+            <div class="center">
+                <a class="btn btn-primary btn-lg btn-google" href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}" role="button">
+                    <i class="fa fa-google-plus"></i> เข้าสู่ระบบด้วยบัญชี Google
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

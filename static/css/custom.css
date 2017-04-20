@@ -1,0 +1,47 @@
+
+/* universal */
+
+body {
+    padding-top: 70px;
+}
+
+section {
+    overflow: auto;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.center {
+    text-align: center;
+}
+
+.center h1 {
+    margin-bottom: 10px;
+}
+
+.not-active {
+    pointer-events: none;
+    cursor: default;
+}
+.panel {
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 900px;
+}
+
+.alert {
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 900px;
+}
+
+.sidebar-activ-badge {
+    color: #337ab7;
+    background-color: #fff;
+}
+
+.white {
+    color: #fff;
+}

@@ -1,0 +1,286 @@
+{% extends 'user_menu.html' %}
+
+{% block master_block %}
+
+    {% if pages %}
+        <ul class="nav nav-pills nav-stacked">
+
+        หน้าที่คล้ายกัน.
+        <br><br>
+        <ul class="nav nav-pills nav-stacked">
+            {% for run in pages %}
+                {% if run.id = page.id  %}
+                    <li class="active"><a href="/knowledge_management/category/{{ sup_category.id }}/{{ category_target.id }}/{{ run.id }}" title="{{ run.title }}"><small>{{ run.title|slice:"20" }}</small></a></li>
+                {% else %}
+                    <li><a href="/knowledge_management/category/{{ sup_category.id }}/{{ category_target.id }}/{{ run.id }}" title="{{ run.title }}"><small>{{ run.title|slice:"20" }}</small></a></li>
+                {% endif %}
+            {% endfor %}
+            <br><br>
+        </ul>
+    {% else %}
+        <strong>There are no categories present.</strong>
+    {% endif %}
+
+{% endblock %}
+
+{% block detail_block %}
+    <script type="text/javascript">
+        function addvideo() {
+            document.getElementById('knowledgearea').value += "[video]"+document.getElementById('inputvideo').value+"[/video]";
+            document.getElementById('inputvideo').value = ""  ;
+        }
+
+        function disablebutton() {
+            var x = document.getElementById('check') ;
+            x.h = "no" ;
+
+        }
+        function enablebutton() {
+            var x = document.getElementById('checklike') ;
+            x.value = "yes" ;
+
+        }
+
+        function myFunction(id){
+            var postby = document.getElementById('postby').innerHTML ;
+
+            var x = document.getElementById(id).innerHTML ;
+
+            x = x.split("&lt;div class=\"well\"&gt;").join("[block]");
+            x = x.split("&lt;/div&gt;").join("[/block]");
+            x = x.split("&lt;img src=\"").join("[img]");
+            x = x.split("\"&gt;").join("[/img]");
+            x = x.split("&lt;a href=\"").join("[link]");
+            x = x.split("&lt;/a&gt;").join("[/nlink]");
+
+            var y = document.getElementById('commentarea') ;
+            y.value += "อ้างอิงจากคุณ " + postby + " \n[block]" +  x  + " [/block]" ;
+            $('html, body').animate({
+                scrollTop:$(document).height()
+            }, 'slow');
+
+        }
+
+        function cdelete(id) {
+
+
+            var x = id ;
+            var link = document.getElementById("deletec");
+
+            link.setAttribute("href", "/knowledge_management/delete/{{ sup_category.id }}/{{ category_target.id }}/{{ page.id }}/"+x+"/");
+
+
+        }
+        function addvideo() {
+            document.getElementById('commentarea').value += "[video]"+document.getElementById('inputvideo').value+"[/video]";
+            document.getElementById('inputvideo').value = ""  ;
+        }
+        function addimg() {
+            document.getElementById('commentarea').value += "[img]"+document.getElementById('insertimg').value+"[/img]";
+            document.getElementById('insertimg').value = ""  ;
+        }
+        function addlink() {
+            if(document.getElementById('inputnlink').value != "") {
+                document.getElementById('commentarea').value += "[link]" + document.getElementById('inputlink').value + "[/link]" + document.getElementById('inputnlink').value + "[/nlink]";
+            }
+            else{
+                document.getElementById('commentarea').value += "[link]" + document.getElementById('inputlink').value + "[/link]" + document.getElementById('inputlink').value + "[/nlink]";
+
+            }
+            document.getElementById('inputlink').value = ""  ;
+        }
+
+
+    </script>
+
+
+
+
+    <div class="container-fluid">
+        <small><a class="btn btn-danger btn-xs" href="/knowledge_management/category/">Category</a>
+            > <a class="btn btn-info btn-xs" href="/knowledge_management/category/{{ sup_category.id }}/{{ category_target.id }}page=1">{{ sup_category.name }}</a>
+            > <a class="btn btn-success btn-xs" href="/knowledge_management/category/{{ sup_category.id }}/{{ category_target.id }}page=1">{{ category_target.name }}</a>
+            > <button type="button" class="btn btn-default btn-xs">{{ page.title|title }}</button></small><br>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+            <h1>{{ page.title|title }}</h1><p style=" color: #C0C0C0 "><small>Updateby {{ page.postby.first_name }} {{ page.postby.last_name }} {{ page.date }}</small></p>
+            {% if data %}
+                <p style="word-wrap:break-word">
+                    {% load embed_video_tags %}
+
+                    {%  autoescape off %}
+                        {{ data|linebreaksbr|safe}}
+
+                    {%  endautoescape %}
+                </p>
+
+
+                <br>
+
+                <br><br><br><br><br><br><br><br><br><small>
+                <b>Tags : </b>
+                {% for run in tags %}
+                    <a href="/knowledge_management/tagresult/{{ run.tag }}" >{{ run.tag }}</a>
+                {% endfor %}
+                <div class="col-sm-12">
+                    <hr class="divider">
+                    {% if page.postby.id = user.id %}
+                        <a id="edit" type="button"  href="/knowledge_management/newpost/edit/{{ page.id }}" class="btn btn-danger btn-xs col-xs-1"> Edit<br>this page<br> </a>
+                    {% endif %}
+                    <div class="col-xs-9"></div>
+                    {% if likepage = 0 %}
+                        <a  id="likepagebutton" type="button"  href="/knowledge_management/likepage/{{ sup_category.id }}/{{ category_target.id }}/{{ page.id }}/" class="btn btn-info btn-xs col-xs-1"> {{ page.like }}<br>Likes<br> </a>
+                    {% else %}
+                        <a  id="likepagebutton" type="button"  href="/knowledge_management/likepage/{{ sup_category.id }}/{{ category_target.id }}/{{ page.id }}/" class="btn btn-info btn-xs col-xs-1 disabled"> {{ page.like }}<br>Likes<br> </a>
+                    {% endif %}
+                    <a id="edit" type="button"  href="/knowledge_management/newpost/improve/{{ page.id }}" class="btn btn-success btn-xs col-xs-1"> Improve<br>this page<br> </a>
+                </div>
+
+                <br>
+
+
+            {% else %}
+                <strong>No data.</strong>
+            {% endif %}
+
+            <br><hr class="divider"><font size="5" color="BLUE">{{ comments.count }}  Comments.</font><br>
+            <br><br>
+
+            {% if comments %}
+                <div class="container-fluid " >
+
+                    {% for comment in comments %}
+                        <div class="col-lg-12">
+                            {% if comment not in check_array %}
+                                <a id="likebutton" type="button"  href="/knowledge_management/likecomment/{{ sup_category.id }}/{{ category_target.id }}/{{ page.id }}/{{ comment.id }}/" class="btn btn-info btn-xs col-sm-1"> {{ comment.like }}<br>Likes<br> </a>
+                            {% else %}
+                                <a id="likebutton" type="button"  href="/knowledge_management/likecomment/{{ sup_category.id }}/{{ category_target.id }}/{{ page.id }}/{{ comment.id }}/" class="btn btn-default btn-xs col-sm-1 disabled"> {{ comment.like }}<br>Likes<br> </a>
+                            {% endif %}
+
+                            <div class="col-sm-11">
+
+                                <p style=" color: #C0C0C0 ; font-size: small">{{ comment.postby.first_name }} {{ comment.postby.last_name }}  {{ comment.date }}</p>
+                                {% load embed_video_tags %}
+                                <p id="{{ comment.id }}" hidden>{{ comment.data }}</p>
+                                <p style="word-wrap: break-word">
+                                    {%  autoescape off %}
+                                        {{ comment.data|linebreaksbr|safe}}
+                                    {%  endautoescape %}
+                                </p>
+                                <br>
+                                <textarea hidden id="postby">{{ comment.postby }}</textarea>
+                                <a class="btn tn-md" onclick="myFunction({{ comment.id }})"><span id="left" type="button" style=" color: darkgrey ">Reply</span></a>
+                                {% if user == comment.postby %}
+
+                                    <a class="btn btn-md" onclick="cdelete({{ comment.id }})" ><span id="deletecomment"  type="button"  data-toggle="modal" data-target="#myModal0" style=" color: firebrick "> Delete this comment.</span></a>
+                                {% endif %}
+                                <hr class="divider">
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <hr class="divider">
+            <form id="category_form" method="post" action="/knowledge_management/category/{{ sup_category.id }}/{{ category_target.id }}/{{ page.id }}/">
+
+                <label for="comment">Add comments:</label>
+            <br>
+                <a class="btn btn-md" data-toggle="modal" data-target="#myModal2"><span id="insertimage" type="button" class="glyphicon glyphicon-picture" > Insertimage.</span></a>
+                <a class="btn btn-md" data-toggle="modal" data-target="#myModal3"><span id="insertlink"  type="button" class="glyphicon glyphicon-link" > Insertlink.</span></a><br>
+
+                {% csrf_token %}
+                {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                {% endfor %}
+                <textarea class="form-control" rows="2" id="commentarea" {{ form.data }} </textarea>
+
+                <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            <hr class="divider"></small>
+        </div>
+    </div>
+    <div class="col-sm-1"></div>
+
+
+    <div class="modal fade" id="myModal0" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button  onclick="document.getElementById('inputvideo').value = '' " type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Confirm to delete.</h4>
+                </div>
+                <div class="modal-body">
+                    <a class="btn tn-md" id="deletec" onclick="alert('Comment deleted')"  href="www.google.com"><span id="left" type="button" class="btn btn-danger" style=" color: black ">Delete this comment</span></a>
+                    <button  type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button  onclick="document.getElementById('inputvideo').value = '' " type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add your video link here.</h4>
+                    <p>(ex https://www.youtube.com/watch?v=Sw2rnuo2D6Y )</p>
+                </div>
+                <div class="modal-body">
+                    <p>Support youtube only.</p>
+
+                    <input class="form-control" id="inputvideo"  type="text">
+                </div>
+                <div class="modal-footer">
+                    <button id="insertvideo" onclick="addvideo()" type="button" class="btn btn-primary btn-md" data-dismiss="modal" >Add.</button>
+                    <button onclick="document.getElementById('inputvideo').value = '' " type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="modal fade" id="myModal2" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button  onclick="document.getElementById('insertimg').value = '' " type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add your image link here.</h4>
+                </div>
+                <div class="modal-body">
+                    <p></p>
+                    <input class="form-control" id="insertimg"  type="text">
+                </div>
+
+                <div class="modal-footer">
+
+                    <a href="/knowledge_management/list/0" target=_blank class="btn btn-primary col-sm-5 ">Upload image.</a>
+                    <div class="col-sm-7"></div>
+                    <button id="insertimg" onclick="addimg()" type="button" class="btn btn-primary btn-md" data-dismiss="modal" >Add.</button>
+                    <button onclick="document.getElementById('insertimg').value = '' " type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="modal fade" id="myModal3" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button  onclick="document.getElementById('inputlink').value = '' " type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add your url link here.</h4>
+                </div>
+                <div class="modal-body">
+                    <p>link address.(ex https://www.google.co.th )</p>
+                    <input class="form-control" id="inputlink"  type="text">
+                    <p>Link name.(ex google)</p>
+                    <input class="form-control" id="inputnlink"  type="text">
+
+                </div>
+                <div class="modal-footer">
+                    <button id="inputlink" onclick="addlink()" type="button" class="btn btn-primary btn-md" data-dismiss="modal" >Add.</button>
+                    <button onclick="document.getElementById('inputlink').value = '' " type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

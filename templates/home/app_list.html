@@ -1,0 +1,5 @@
+{% for app in apps %}
+    <li><a href="{% url app.url %}">
+        <span class="glyphicon glyphicon-{{ app.icon }}"></span> {{ app.name }}
+    </a></li>
+{% endfor %}

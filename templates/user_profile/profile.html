@@ -1,0 +1,31 @@
+{% extends 'master-detail-view.html' %}
+{% load staticfiles %}
+
+
+{% block title %}
+    Profile
+{% endblock %}
+
+{% block head_block %}
+    <a class="navbar-brand" href="{% url 'profile' %}">
+        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> ข้อมูล
+    </a>
+{% endblock %}
+
+{% block detail_block %}
+    <div class="panel panel-default">
+        <div class="panel-heading">บัญชี Google</div>
+        <div class="panel-body">
+            <dl class="dl-horizontal">
+                <dt>ชื่อ</dt><dd>{{ user.get_full_name }}</dd>
+                <dt>อีเมล</dt><dd>{{ user.email }}</dd>
+            </dl>
+        </div>
+    </div>
+
+    <div id="general_profile_panel"></div>
+{% endblock %}
+
+{% block include_js %}
+    <script src="{% static "js/profile.js" %}"></script>
+{% endblock %}

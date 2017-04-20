@@ -1,0 +1,45 @@
+{% extends 'user_menu.html' %}
+
+{% block detail_block %}
+    <body background="/media/documents/2015/12/08/tree_background-IMYx.jpg">
+    <style>
+        #w1 {
+            background-color: #1ab7ea;
+            color: black;
+        }
+
+        #w2 {
+            background-color: #474e5d; /* White */
+            color: #ffffff;
+        }
+        #search {
+            width: 350px;
+        }
+    </style>
+
+    <div>
+        <form id="search_form" method="get" action="/knowledge_management/result/">
+            <div class="well text-center" id="w1">
+                <h3>Search?</h3><br><center>
+                <input type="text" class="form-control" id="search" name="search" ></center>
+                <br>
+                <button type="submit" class="btn btn-default btn-md">Search</button>
+            </div>
+        </form>
+        <div class="well text-center" id="w2">
+
+            <h3>Tag</h3>
+            <p>This all tags is avilable.</p>
+            <br><br>
+            {% for run in tags %}
+
+                <a href="/knowledge_management/tagresult/{{ run }}" class="btn btn-success btn-xs">{{ run }}</a>
+
+            {% endfor %}
+        </div>
+
+
+    </div>
+
+{% endblock %}
+
